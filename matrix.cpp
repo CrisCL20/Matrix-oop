@@ -1,8 +1,7 @@
 #include "matrix.h"
 
-bool isPair(int n){
-    if(n%2==0) return 1;
-    return 0;
+bool isEven(int n){
+    return (n%2 == 0) ? 1:0;
 }
 
 
@@ -10,13 +9,13 @@ matrix::matrix(int rows, int cols){
     this->rows = rows;
     this->cols = cols;
 
-    this->mat = new int*[this->rows];
-    for(int i = 0;i<this->rows;i++) this->mat[i] = new int [this->cols];
+    this->mat = new double* [this->rows];
+    for(int i = 0;i<this->rows;i++) this->mat[i] = new double [this->cols];
 }
 
 
 
-matrix::~matrix(){delete[] this->mat;}
+matrix::~matrix(){delete[] this;}
 
 int matrix::getRows(){
     return this->rows;
@@ -26,11 +25,11 @@ int matrix::getCols(){
     return this->cols;
 }
 
-int** matrix::getMatrix(){
+double** matrix::getMatrix(){
     return this->mat;
 }
 
-void matrix::setMatrix(int** matrix){
+void matrix::setMatrix(double** matrix){
     this->mat = matrix;
 }
 
@@ -41,8 +40,8 @@ bool matrix::isSquare(){
 matrix* Identity(int N){
     matrix* iden = new matrix(N,N);
 
-    int** identity = new int* [N];
-    for(int i=0;i<N;i++) identity[i] = new int[N];
+    double** identity = new double* [N];
+    for(int i=0;i<N;i++) identity[i] = new double[N];
 
     for(int i=0;i<N;i++)
     for(int j = 0;j<N;j++)
@@ -60,7 +59,7 @@ double matrix::det(){
     
     const int n = this->rows;
     
-    int** modifiable = this->mat;
+    double** modifiable = this->mat;
     int n1,n2,index;
     
     double total=1,det=1;
@@ -109,10 +108,20 @@ void matrix::inverse(){
     //Do this using Gauss - Jordan!
 
     const int n = this->rows;
-
+    int diag;
     matrix* identity = Identity(n);
     const double determinant = this->det();
 
+    for (int i = 0;i < n; i++){
+        
+        diag = this->mat[i][i]; //multiply whole row by this element
+        
+        for(int j=0;j<n;j++)
+            this->mat[i][j] = this->mat[i][j] * diag,
+            identity->mat[i][j] = identity->mat[i][j] * diag; //what we do to A we have to do to I
+    }
 
+    //now A has 1's on its diagonals and other numbers anywhere else
+    // I have to make it so we get to zero everywhere else but the diagonals!
 
 }

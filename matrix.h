@@ -7,14 +7,14 @@ class matrix{
     private:
         int rows;
         int cols;
-        int** mat;
+        double** mat;
     public:
         matrix(int rows,int cols);
         ~matrix();
         int getRows();
         int getCols();
-        int** getMatrix();
-        void setMatrix(int**);
+        double** getMatrix();
+        void setMatrix(double**);
         bool isSquare();
         double det();
         void inverse();
@@ -22,4 +22,4 @@ class matrix{
 
 matrix* Identity(int);
 
-bool isPair(int);
+bool isEven(int);
