@@ -108,20 +108,36 @@ void matrix::inverse(){
     //Do this using Gauss - Jordan!
 
     const int n = this->rows;
-    int diag;
+    double diag;
     matrix* identity = Identity(n);
     const double determinant = this->det();
 
+    /*
     for (int i = 0;i < n; i++){
         
-        diag = this->mat[i][i]; //multiply whole row by this element
+        diag = this->mat[i][i]; //divide whole row by this element
         
         for(int j=0;j<n;j++)
-            this->mat[i][j] = this->mat[i][j] * diag,
-            identity->mat[i][j] = identity->mat[i][j] * diag; //what we do to A we have to do to I
+            this->mat[i][j] = this->mat[i][j] / diag,
+            identity->mat[i][j] = identity->mat[i][j] / diag; //what we do to A we have to do to I
     }
 
     //now A has 1's on its diagonals and other numbers anywhere else
-    // I have to make it so we get to zero everywhere else but the diagonals!
+    //I have to make it so we get to zero everywhere else but the diagonals!
 
+    for(int i = 0;i<n;i++){
+        double* currentRow = this->mat[i];
+        double* nextRow = this->mat[i+1];
+
+        for(int j = 0;j < n;j++){
+            if(currentRow[j] == nextRow[j]) goto substractRow;
+            else continue;
+
+        substractRow:
+
+
+        }
+
+    }
+    */
 }
