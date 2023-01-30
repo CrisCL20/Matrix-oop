@@ -98,6 +98,55 @@ double matrix::det(){
 
 }
 
+void cofactor(matrix* mymat, double** temp, int p, int q){
+    
+    //get cofactor (stoled from https://www.geeksforgeeks.org/adjoint-inverse-matrix/)
+    if(!mymat->isSquare()) cerr << "Matrix is not square!\n";
+
+    const int n = mymat->getRows();
+
+    double** mat = mymat->getMatrix();
+
+    int z=0,k=0;
+
+    for(int r = 0;r < n;r++){
+        for(int c = 0;c<n;c++){ //kekw
+            if(r != p && c != q){
+                temp[z][k++] = mymat->getMatrix()[r][c];
+
+                if(k == n-1) 
+                    k = 0, z++;
+            }
+        }
+    }
+}
+
+void matrix::adjoint(){
+    if(!this->isSquare()) cerr << "Matrix is not square!\n";
+    const int n = this->rows;
+
+    double** adj = new double* [n];
+    for(int i = 0;i<n;i++) adj[i] = new double[n];
+
+    matrix* temp = new matrix(this->rows,this->cols);
+    if(n == 1){ 
+        adj[0][0] = 1;
+        return;
+    }
+
+    int s = 1;
+
+    for(int i = 0;i<n;i++){
+        for(int j = 0;j<n;j++){
+            cofactor(this,temp->mat,i,j);
+            s = ((i+j)%2 == 0) ? 1 : -1;
+            adj[j][i] = s * temp->det();
+        }
+    }
+
+
+}
+
 void matrix::inverse(){
     if(!this->isSquare()) 
         cerr << "Matrix is not square!\n";
@@ -105,39 +154,11 @@ void matrix::inverse(){
     if(this->det() == 0) 
         cerr << "Determinant is zero!\n";
     
-    //Do this using Gauss - Jordan!
-
     const int n = this->rows;
-    double diag;
+
     matrix* identity = Identity(n);
-    const double determinant = this->det();
-
-    /*
-    for (int i = 0;i < n; i++){
-        
-        diag = this->mat[i][i]; //divide whole row by this element
-        
-        for(int j=0;j<n;j++)
-            this->mat[i][j] = this->mat[i][j] / diag,
-            identity->mat[i][j] = identity->mat[i][j] / diag; //what we do to A we have to do to I
-    }
-
-    //now A has 1's on its diagonals and other numbers anywhere else
-    //I have to make it so we get to zero everywhere else but the diagonals!
-
-    for(int i = 0;i<n;i++){
-        double* currentRow = this->mat[i];
-        double* nextRow = this->mat[i+1];
-
-        for(int j = 0;j < n;j++){
-            if(currentRow[j] == nextRow[j]) goto substractRow;
-            else continue;
-
-        substractRow:
+    const double det = this->det();
 
 
-        }
-
-    }
-    */
+   
 }

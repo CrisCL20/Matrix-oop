@@ -14,6 +14,7 @@ class matrix{
         int getRows();
         int getCols();
         double** getMatrix();
+        void adjoint();
         void setMatrix(double**);
         bool isSquare();
         double det();
@@ -21,5 +22,7 @@ class matrix{
 };
 
 matrix* Identity(int);
+
+void Cofactor(matrix*,double**,int,int);
 
 bool isEven(int);
